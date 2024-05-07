@@ -1,0 +1,116 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Product {
+    private String name;
+    private double price;
+
+    public Product(String name, double price) {
+        this.name = name;
+        this.price = price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+}
+
+class ShoppingCart {
+    private ArrayList<Product> items = new ArrayList<>();
+
+    public void addItem(Product product) {
+        items.add(product);
+    }
+
+    public double getTotal() {
+        double total = 0;
+        for (Product item : items) {
+            total += item.getPrice();
+        }
+        return total;
+    }
+
+    public void displayCart() {
+        if (items.isEmpty()) {
+            System.out.println("Your cart is empty.");
+            return;
+        }
+
+        System.out.println("Your shopping cart:");
+        for (Product item : items) {
+            System.out.println(item.getName() + " - $" + item.getPrice());
+        }
+        System.out.println("Total: $" + getTotal());
+    }
+
+    public void clearCart() {
+        items.clear();
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Product p1 = new Product("T-shirt", 15.99);
+        Product p2 = new Product("Jeans", 29.99);
+        Product p3 = new Product("Sneakers", 49.99);
+
+        ShoppingCart cart = new ShoppingCart();
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\n1. Add Product to Cart");
+            System.out.println("2. View Cart");
+            System.out.println("3. Checkout");
+            System.out.println("4. Clear Cart");
+            System.out.println("5. Exit");
+
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.println("\nAvailable Products:");
+                    System.out.println("1. T-shirt - $15.99");
+                    System.out.println("2. Jeans - $29.99");
+                    System.out.println("3. Sneakers - $49.99");
+                    System.out.print("Enter product number to add to cart: ");
+                    int productChoice = scanner.nextInt();
+                    switch (productChoice) {
+                        case 1:
+                            cart.addItem(p1);
+                            break;
+                        case 2:
+                            cart.addItem(p2);
+                            break;
+                        case 3:
+                            cart.addItem(p3);
+                            break;
+                        default:
+                            System.out.println("Invalid product choice.");
+                    }
+                    break;
+                case 2:
+                    cart.displayCart();
+                    break;
+                case 3:
+                    System.out.println("Checkout completed. Total amount: $" + cart.getTotal());
+                    cart.clearCart();
+                    break;
+                case 4:
+                    cart.clearCart();
+                    System.out.println("Cart cleared.");
+                    break;
+                case 5:
+                    System.out.println("Exiting program. Goodbye!");
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+}
